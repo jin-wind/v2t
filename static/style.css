@@ -1,0 +1,361 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --border: #2a2d3a;
+  --text: #e4e4e7;
+  --text-dim: #71717a;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.3);
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.3);
+  --success: #22c55e;
+  --warn: #eab308;
+  --radius: 12px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── 顶部控制栏 ─── */
+.control-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lang-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-select label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lang-select span {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lang-select select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.lang-select select:focus {
+  border-color: var(--accent);
+}
+
+.arrow {
+  font-size: 20px;
+  color: var(--text-dim);
+  align-self: flex-end;
+  margin-bottom: 4px;
+}
+
+.status-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status.disconnected {
+  background: rgba(113, 113, 122, 0.2);
+  color: var(--text-dim);
+}
+
+.status.connecting {
+  background: rgba(234, 179, 8, 0.15);
+  color: var(--warn);
+}
+
+.status.connected {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--success);
+}
+
+.status.reconnecting {
+  background: rgba(234, 179, 8, 0.15);
+  color: var(--warn);
+}
+
+/* ─── 录音控制区 ─── */
+.record-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-record {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-record:hover {
+  background: var(--accent-glow);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.btn-record.recording {
+  border-color: var(--danger);
+  background: var(--danger-glow);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.btn-record .mic-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.btn-record .btn-text {
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--danger-glow); }
+  50% { box-shadow: 0 0 20px 4px var(--danger-glow); }
+}
+
+/* ─── 波形 + 音量条 ─── */
+.waveform-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+#waveform {
+  width: 100%;
+  height: 48px;
+  border-radius: 6px;
+  display: block;
+}
+
+.volume-bar-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.volume-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 60ms linear, background-color 0.2s;
+}
+
+.volume-bar-fill.speaking {
+  background: var(--success);
+}
+
+.volume-bar-fill.muted {
+  background: var(--text-dim);
+}
+
+.vad-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  height: 14px;
+  line-height: 14px;
+  transition: color 0.2s;
+}
+
+.vad-label.speaking {
+  color: var(--success);
+}
+
+/* ─── 字幕区 ─── */
+.subtitle-area {
+  flex: 1;
+  min-height: 300px;
+}
+
+.subtitle-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 100%;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+.subtitle-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.subtitle-container::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.subtitle-placeholder {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+.subtitle-item {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  animation: slideIn 0.3s ease-out;
+  transition: opacity 0.4s, border-color 0.3s, background 0.3s;
+  opacity: 0.55;
+}
+
+.subtitle-item.latest {
+  opacity: 1;
+  border-left-color: var(--success);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.subtitle-item .original {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+.subtitle-item .translated {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.subtitle-item.latest .original {
+  color: #a1a1aa;
+}
+
+.subtitle-item.latest .translated {
+  font-size: 17px;
+  color: #fff;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── 底部操作栏 ─── */
+.action-bar {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── 响应式 ─── */
+@media (max-width: 520px) {
+  .control-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lang-select {
+    flex-wrap: wrap;
+  }
+
+  #waveform {
+    height: 36px;
+  }
+}

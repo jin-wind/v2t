@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V2T - 实时同声传译</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 顶部控制栏 -->
+    <header class="control-bar">
+      <div class="lang-select">
+        <label>
+          <span>源语言</span>
+          <select id="sourceLang">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="yue">粤语</option>
+          </select>
+        </label>
+        <span class="arrow">→</span>
+        <label>
+          <span>目标语言</span>
+          <select id="targetLang">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="yue">粤语</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="status-group">
+        <span id="wsStatus" class="status disconnected">未连接</span>
+      </div>
+    </header>
+
+    <!-- 录音控制区 -->
+    <div class="record-section">
+      <button id="btnRecord" class="btn-record" title="开始录音">
+        <span class="mic-icon">🎤</span>
+        <span class="btn-text">开始</span>
+      </button>
+
+      <div class="waveform-wrap">
+        <canvas id="waveform"></canvas>
+        <div class="volume-bar-track">
+          <div id="volumeBar" class="volume-bar-fill"></div>
+        </div>
+        <span id="vadLabel" class="vad-label"></span>
+      </div>
+    </div>
+
+    <!-- 字幕显示区 -->
+    <div class="subtitle-area">
+      <div id="subtitleContainer" class="subtitle-container">
+        <div class="subtitle-placeholder">点击上方按钮开始同声传译</div>
+      </div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <footer class="action-bar">
+      <button id="btnExport" class="btn-secondary" disabled>导出纪要</button>
+      <button id="btnClear" class="btn-secondary">清空</button>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
